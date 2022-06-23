@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:arg name="use_ros_control" default="False" />
+  <xacro:arg name="control_period" default="0.001" />
+
+
+  <gazebo>
+    <xacro:unless value="$(arg use_ros_control)">
+      <plugin name="ros_control" filename="libgazebo_ros_control.so">
+      </plugin>
+    </xacro:unless>
+
+  <xacro:if value="$(arg use_ros_control)">
+  <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+     <robotNamespace>/arm_controller</robotNamespace>
+     <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+     <controlPeriod>$(arg control_period)</controlPeriod>
+  </plugin>
+
+</robot>

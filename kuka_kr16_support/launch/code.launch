@@ -1,0 +1,6 @@
+<launch>
+    <group ns="kr16">
+        <node name = "code" pkg= "kr16_control" type="teleop.py" output="screen">
+        </node>
+    </group>
+</launch>

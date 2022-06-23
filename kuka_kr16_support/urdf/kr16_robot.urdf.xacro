@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro"
+       name="$(arg robot_name)">>
+  <!-- load kr16_robot macro  -->
+  <xacro:include filename="$(find kuka_kr16_support)/urdf/kr16.urdf.xacro" />
+
+  <!-- execute macro -->
+  <xacro:kuka_kr16_2 prefix=""/>
+
+  <link name="world" />
+
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+</robot>
