@@ -8,6 +8,6 @@ Then go into Ubuntu terminal, and path to the workspace and type -catkin_make, a
 
 To run in the laberatory you need to start ROS core in one terminal window with -roscore
 
-In another you need to run start_robot.launch with -roslaunch kuka_kr16_support start_robot.launch sim:=false
+In another you need to run start_robot.launch with -roslaunch kuka_kr16_support start_robot.launch sim:=false (if sim:=true then you are not connected to the robot is sim:=false then you are connected)
 
 To run the code open up another terminal window and run the code teleop.py
