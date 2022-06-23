@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- By default, do not start a RSI simulator -->
+  <arg name="sim" default="true" />
+  <!-- By default, start the rviz MoveIt! plugin -->
+  <arg name="rviz" default="true" />
+  <!-- By default, do not start a MoveIt! database -->
+  <arg name="db" default="false" />
+
+  <!-- Launch the hardware interface. If sim=true, a RSI simulator starts as well) -->
+  <include file="$(find kuka_kr16_support)/launch/robot_interface.launch" >
+    <arg name="sim" value="$(arg sim)" />
+  </include>
+
+  <group ns="kr16">
+  <rosparam command="load" file="$(find kuka_kr16_support)/config/joint_names_kr16.yaml"/>
+
+  <!-- load the robot_description parameter before launching ROS-I nodes -->
+  <include file="$(find kuka_kr16_moveit_config)/launch/planning_context.launch" >
+    <arg name="load_robot_description" value="true" />
+  </include>
+
+  <!-- publish the robot state (tf transforms) -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+     <param name="/use_gui" value="false"/>
+     <rosparam param="/source_list">[/kr16/joint_states]</rosparam>
+  </node> -->
+
+  
+  <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_1" args="0 0 0 0 0 0 world virtual_joint" /> 
+  <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_2" args="0 0 0 0 0 0 virtual_joint base_link" /> 
+
+  <include file="$(find kuka_kr16_moveit_config)/launch/move_group.launch">
+    <arg name="publish_monitored_planning_scene" value="true" />
+  </include>
+
+  <include file="$(find kuka_kr16_moveit_config)/launch/moveit_rviz.launch" if="$(arg rviz)">
+    <arg name="rviz_config" value="true"/>
+  </include>
+  </group>
+</launch>
